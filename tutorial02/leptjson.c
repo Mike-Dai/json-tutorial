@@ -49,7 +49,7 @@ static int lept_parse_number(lept_context* c, lept_value* v) {
     char buffer[50];
     sprintf(buffer, "%f", v->n);
     int len = strlen(buffer);
-    if (buffer[0] == '+' || buffer[0] == '.')
+    if (buffer[0] == '+' || buffer[0] == '.' || buffer[0] == '0' || buffer[0] == '0x')
         return LEPT_PARSE_INVALID_VALUE;
     if (buffer[len-1] == '.')
         return LEPT_PARSE_INVALID_VALUE;
