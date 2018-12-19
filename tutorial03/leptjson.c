@@ -94,6 +94,11 @@ static int lept_parse_string(lept_context* c, lept_value* v) {
     for (;;) {
         char ch = *p++;
         switch (ch) {
+            case '\\':
+                p++;
+                if (*p != '"' && *p != '\' && *p != '/' && *p != 'b' && *p != 'f' && *p != 'n' && *p != 'r' && *p != 't')
+                    return LEPT_PARSE_INVALID_STRING_CHAR;
+                p++;
             case '\"':
                 len = c->top - head;
                 lept_set_string(v, (const char*)lept_context_pop(c, len), len);
@@ -154,6 +159,8 @@ lept_type lept_get_type(const lept_value* v) {
 
 int lept_get_boolean(const lept_value* v) {
     /* \TODO */
+    assert(v != NULL);
+    
     return 0;
 }
 
