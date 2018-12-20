@@ -1,3 +1,8 @@
+#ifdef _WINDOWS
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -188,6 +193,7 @@ static void test_access_boolean() {
     /* Use EXPECT_TRUE() and EXPECT_FALSE() */
     lept_value v;
     lept_init(&v);
+    lept_set_string(&v, "a", 1);
     lept_set_boolean(&v, 1);
     EXPECT_TRUE(lept_get_type(&v));
     lept_set_boolean(&v, 0);
@@ -197,6 +203,12 @@ static void test_access_boolean() {
 
 static void test_access_number() {
     /* \TODO */
+    lept_value v;
+    lept_init(&v);
+    lept_set_string(&v, "a", 1);
+    lept_set_number(&v,, 1234.5);
+    EXPECT_EQ_DOUBLE(1234.5, lept_get_number(&v));
+    lept_free(&v);
 }
 
 static void test_access_string() {
@@ -230,6 +242,9 @@ static void test_parse() {
 }
 
 int main() {
+    #ifdef _WINDOWS
+        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    #endif
     test_parse();
     printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100.0 / test_count);
     return main_ret;
